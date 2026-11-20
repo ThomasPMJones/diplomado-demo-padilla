@@ -7,6 +7,10 @@ on:
 jobs:
   despliegue-estatico:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     steps:
       - name: Clonar el repositorio
         uses: actions/checkout@v4
@@ -19,7 +23,7 @@ jobs:
       - name: Ejecutar validacion de texto con Python
         run: |
           python -c "print('Iniciando validacion automatica de archivos...')"
-          python -c "with open('index.html', 'r') as f: contenido = f.read(); print(f'Tamanio del archivo procesado: {len(contenido)} bytes')"
+          python -c "with open('index.html', 'r', encoding='utf-8') as f: contenido = f.read(); print(f'Tamanio del archivo procesado: {len(contenido)} bytes')"
 
       - name: Publicar en servidor estatico (GitHub Pages)
         uses: actions/upload-pages-artifact@v3
